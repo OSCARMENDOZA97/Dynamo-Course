@@ -1,0 +1,335 @@
+{
+  "Uuid": "a986c8ec-100d-44ea-984e-6d7ebac20760",
+  "IsCustomNode": false,
+  "Description": "",
+  "Name": "Clase16",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Code": "import clr\r\n\r\nclr.AddReference('RevitAPI')\r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.DB.Structure import *\r\n\r\nclr.AddReference('RevitAPIUI')\r\nfrom Autodesk.Revit.UI import *\r\n\r\nclr.AddReference('System')\r\nfrom System.Collections.Generic import List\r\n\r\nclr.AddReference('RevitNodes')\r\nimport Revit\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\nclr.ImportExtensions(Revit.Elements)\r\n\r\nclr.AddReference('RevitServices')\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nuidoc=DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument\r\n\r\n#Preparing input from dynamo to revit\r\nelements = UnwrapElement(IN[0])\r\n\r\nresult_Names = []\r\nresult_FloorFinish = []\r\nfor elem in elements:\r\n    paramName = elem.get_Parameter(BuiltInParameter.ROOM_NAME).AsValueString()\r\n    paramFloorFinish = elem.get_Parameter(BuiltInParameter.ROOM_FINISH_WALL).AsValueString()\r\n    result_Names.append(paramName)\r\n    result_FloorFinish.append(paramFloorFinish)\r\n\r\nOUT = result_Names, result_FloorFinish",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "9a2057cd9a2b4cf4a110ea1626b4d82d",
+      "NodeType": "PythonScriptNode",
+      "Inputs": [
+        {
+          "Id": "22171f53e60148d792830d98be8ec605",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "03a5c4e70ff84f3e872e26faf40cabf2",
+          "Name": "OUT",
+          "Description": "Resultado de la secuencia de comandos de Python",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Ejecuta una secuencia de comandos de Python incrustada."
+    },
+    {
+      "ConcreteType": "Dynamo.ComboNodes.DSModelElementsByCategorySelection, DSRevitNodesUI",
+      "SelectedIndex": 419,
+      "SelectedString": "OST_Rooms",
+      "NodeType": "ExtensionNode",
+      "InstanceId": [
+        "82aac8c3-ab44-4747-b607-5047b2a65db2-00002369",
+        "82aac8c3-ab44-4747-b607-5047b2a65db2-0000236b",
+        "82aac8c3-ab44-4747-b607-5047b2a65db2-0000236d",
+        "82aac8c3-ab44-4747-b607-5047b2a65db2-0000236f",
+        "82aac8c3-ab44-4747-b607-5047b2a65db2-00002373",
+        "82aac8c3-ab44-4747-b607-5047b2a65db2-00002375",
+        "82aac8c3-ab44-4747-b607-5047b2a65db2-00002377",
+        "82aac8c3-ab44-4747-b607-5047b2a65db2-00002379"
+      ],
+      "Id": "73eed85003cc42b5bb811e1a63277046",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "3aac09f9493040318f0ef1fd0470fc90",
+          "Name": "Elements",
+          "Description": "Los elementos seleccionados",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Seleccione varios elementos del documento de Revit filtrados por categoría."
+    },
+    {
+      "ConcreteType": "Dynamo.ComboNodes.DSModelElementsByCategorySelection, DSRevitNodesUI",
+      "SelectedIndex": 551,
+      "SelectedString": "OST_Doors",
+      "NodeType": "ExtensionNode",
+      "InstanceId": [
+        "d1c1f0b5-7724-4a6a-a833-f1068a4f08e2-00001330",
+        "d1c1f0b5-7724-4a6a-a833-f1068a4f08e2-0000134b",
+        "d1c1f0b5-7724-4a6a-a833-f1068a4f08e2-0000136c",
+        "b34ba41a-d8c0-46ef-92ba-f0f3de3c773b-00001e00",
+        "b34ba41a-d8c0-46ef-92ba-f0f3de3c773b-00001e53",
+        "b34ba41a-d8c0-46ef-92ba-f0f3de3c773b-00001e6c",
+        "180d064e-07e8-448f-8089-873700c02ee9-000033f3"
+      ],
+      "Id": "dfe14de65bc84efa9d7ab9bb6a4cf3b8",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "197d26a478f24426bb8f82be69959cbc",
+          "Name": "Elements",
+          "Description": "Los elementos seleccionados",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Seleccione varios elementos del documento de Revit filtrados por categoría."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Code": "import clr\r\n\r\nclr.AddReference('RevitAPI')\r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.DB.Structure import *\r\n\r\nclr.AddReference('RevitAPIUI')\r\nfrom Autodesk.Revit.UI import *\r\n\r\nclr.AddReference('System')\r\nfrom System.Collections.Generic import List\r\n\r\nclr.AddReference('RevitNodes')\r\nimport Revit\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\nclr.ImportExtensions(Revit.Elements)\r\n\r\nclr.AddReference('RevitServices')\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nuidoc=DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument\r\n\r\n#Preparing input from dynamo to revit\r\nelements = UnwrapElement(IN[0])\r\n\r\nresult_altura = []\r\nresult_nombres = []\r\nfor elem in elements:\r\n    paramAltura = elem.get_Parameter(BuiltInParameter.FAMILY_HEIGHT_PARAM).AsValueString()\r\n    paramNombres = elem.get_Parameter(BuiltInParameter.ALL_MODEL_TYPE_NAME).AsValueString()\r\n    result_altura.append(paramAltura)\r\n    result_nombres.append(paramNombres)\r\n\r\nOUT = result_nombres, result_altura",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "c949a0831a9046b28b36fcb81f5d2ea5",
+      "NodeType": "PythonScriptNode",
+      "Inputs": [
+        {
+          "Id": "096a415d11f7409ab4c1f6431d53e79b",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "34fd64ef82354f9397ea5970aa9b2547",
+          "Name": "OUT",
+          "Description": "Resultado de la secuencia de comandos de Python",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Ejecuta una secuencia de comandos de Python incrustada."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "Id": "8d9de47469864a5a8b0bd6c7932a1b2d",
+      "NodeType": "FunctionNode",
+      "Inputs": [
+        {
+          "Id": "e24228c9a6e24965a906a94c21ae4a82",
+          "Name": "element",
+          "Description": "Revit.Elements.Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "10f7e3e8640d47b4b98a3a43c1ae5538",
+          "Name": "ElementType",
+          "Description": "Tipo de elemento o null.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "FunctionSignature": "Revit.Elements.Element.ElementType",
+      "Replication": "Auto",
+      "Description": "Devuelve el ElementType de este elemento. Devuelve un valor nulo si no se puede asignar un ElementType al elemento.\n\nElement.ElementType: ElementType"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "3aac09f9493040318f0ef1fd0470fc90",
+      "End": "22171f53e60148d792830d98be8ec605",
+      "Id": "006e7395522c4aafaba315ecea19d198",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "197d26a478f24426bb8f82be69959cbc",
+      "End": "e24228c9a6e24965a906a94c21ae4a82",
+      "Id": "f96f91bd6984465eb23e6e48d45d666f",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "10f7e3e8640d47b4b98a3a43c1ae5538",
+      "End": "096a415d11f7409ab4c1f6431d53e79b",
+      "Id": "55a76b34ce354e93b700ea1f02e8dd3f",
+      "IsHidden": "False"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "EnableLegacyPolyCurveBehavior": true,
+  "Thumbnail": "",
+  "GraphDocumentationURL": null,
+  "ExtensionWorkspaceData": [
+    {
+      "ExtensionGuid": "28992e1d-abb9-417f-8b1b-05e053bee670",
+      "Name": "Propiedades",
+      "Version": "3.3",
+      "Data": {}
+    },
+    {
+      "ExtensionGuid": "DFBD9CC0-DB40-457A-939E-8C8555555A9D",
+      "Name": "Generative Design",
+      "Version": "8.2",
+      "Data": {}
+    }
+  ],
+  "Author": "",
+  "Linting": {
+    "activeLinter": "Ninguno",
+    "activeLinterId": "7b75fb44-43fd-4631-a878-29f4d5d8399a",
+    "warningCount": 0,
+    "errorCount": 0
+  },
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "3.3.0.6316",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "_Vista preliminar en segundo plano",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "ConnectorPins": [],
+    "NodeViews": [
+      {
+        "Id": "9a2057cd9a2b4cf4a110ea1626b4d82d",
+        "Name": "Python Script",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 147.88434091133354,
+        "Y": 222.87729563935477
+      },
+      {
+        "Id": "73eed85003cc42b5bb811e1a63277046",
+        "Name": "Select Model Elements By Category",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": -405.52417322686864,
+        "Y": 190.4115895182199
+      },
+      {
+        "Id": "dfe14de65bc84efa9d7ab9bb6a4cf3b8",
+        "Name": "Select Model Elements By Category",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": -410.39962142724414,
+        "Y": 730.2306029357418
+      },
+      {
+        "Id": "c949a0831a9046b28b36fcb81f5d2ea5",
+        "Name": "Python Script",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 366.0329796485066,
+        "Y": 808.7423628474021
+      },
+      {
+        "Id": "8d9de47469864a5a8b0bd6c7932a1b2d",
+        "Name": "Element.ElementType",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 34.83162588877735,
+        "Y": 799.5655316867495
+      }
+    ],
+    "Annotations": [
+      {
+        "Id": "98d4dc044a7547fa803b6ea8a2eeb09d",
+        "Title": "EJEMPLAR/INSTANCE",
+        "DescriptionText": null,
+        "IsExpanded": true,
+        "WidthAdjustment": 0.0,
+        "HeightAdjustment": 0.0,
+        "Nodes": [],
+        "HasNestedGroups": false,
+        "Left": -242.8427539067667,
+        "Top": 155.18356114561476,
+        "Width": 0.0,
+        "Height": 0.0,
+        "FontSize": 36.0,
+        "GroupStyleId": "00000000-0000-0000-0000-000000000000",
+        "InitialTop": 0.0,
+        "InitialHeight": 0.0,
+        "TextblockHeight": 0.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "3709a7421e6e48ff81b4bf66cba34bd1",
+        "Title": "TIPO/TYPE",
+        "DescriptionText": null,
+        "IsExpanded": true,
+        "WidthAdjustment": 0.0,
+        "HeightAdjustment": 0.0,
+        "Nodes": [],
+        "HasNestedGroups": false,
+        "Left": -235.4525582019727,
+        "Top": 696.464441971688,
+        "Width": 0.0,
+        "Height": 0.0,
+        "FontSize": 36.0,
+        "GroupStyleId": "00000000-0000-0000-0000-000000000000",
+        "InitialTop": 0.0,
+        "InitialHeight": 0.0,
+        "TextblockHeight": 0.0,
+        "Background": "#FFC1D676"
+      }
+    ],
+    "X": 553.6069420550418,
+    "Y": 127.03769078334597,
+    "Zoom": 0.885912000710935
+  }
+}
